@@ -7,6 +7,10 @@ from . import models as db
 
 @api_view()
 def call_json_to_db(request):
+    """This function based view is used to delete existing data from from database and add new data from json.
+        METHOD: GET
+        URL : https://dry-gorge-19755.herokuapp.com/movies/load-db/
+    """
     load_json_to_db()
     return Response(
     data = {
@@ -17,6 +21,10 @@ def call_json_to_db(request):
 
 @api_view()
 def get_all_movies(request):
+    """This function based view is used to get all movies from the database.
+        METHOD: GET
+        URL : https://dry-gorge-19755.herokuapp.com/movies/list/
+    """
     movie_list = []
     movies_list = db.Movies.objects.all()
     for item in movies_list:
@@ -42,6 +50,21 @@ def get_all_movies(request):
 
 @api_view(['POST'])
 def add_movie(request):
+    """This function based view is used to add a movie to the database.
+        METHOD: POST
+        PERMISSION : ONLY ADMIN USERS
+	    BODY TO SEND : {
+				“name”: “Example”,
+				“director”: “Example”,
+				“imdb_score”: “9.5”,
+				“popularity”: “56”,
+				“genre”: [
+					“Action”, “Drama”
+					]
+			}
+	    HEADER TO SEND: Token edcef36e4317c4ab7969d25asdasdab1332a0588743ac5e (‘Token ‘Token received from login response )
+        URL : https://dry-gorge-19755.herokuapp.com/movies/add/
+    """
     current_user = request.user
     try:
         user_obj = User.objects.get(username=current_user)
@@ -106,6 +129,23 @@ def add_movie(request):
 
 @api_view(['POST'])
 def edit_movie(request):
+    """This function based view is used to edit a movie to the database. Only whichever fields
+        are needed to be changed can be given in the body. Giving only the name makes this act
+        as a search view fetching detail of that movie.
+        METHOD: POST
+        PERMISSION : ONLY ADMIN USERS
+	    BODY TO SEND : {
+				“name”: “Example”,
+				“director”: “Example”,
+				“imdb_score”: “9.5”,
+				“popularity”: “56”,
+				“genre”: [
+					“Action”, “Drama”
+					]
+			}
+	    HEADER TO SEND: Token edcef36e4317c4ab7969d25asdasdab1332a0588743ac5e (‘Token ‘Token received from login response )
+        URL : https://dry-gorge-19755.herokuapp.com/movies/edit/
+    """
     current_user = str(request.user)
     try:
         user_obj = User.objects.get(username=current_user)
@@ -193,6 +233,17 @@ def edit_movie(request):
 
 @api_view(['POST'])
 def remove_movie(request):
+    """This function based view is used to remove a movie to the database. The deletion is done
+        based on the search criteria of the movie. It is recommended that the admin user first
+        searches for the movie in edit view and makes sure that the correct movie is got.
+        METHOD: POST
+        PERMISSION : ONLY ADMIN USERS
+	    BODY TO SEND : {
+				“name”: “Example”
+			}
+	    HEADER TO SEND: Token edcef36e4317c4ab7969d25asdasdab1332a0588743ac5e (‘Token ‘Token received from login response )
+        URL : https://dry-gorge-19755.herokuapp.com/movies/remove/
+    """
     current_user = str(request.user)
     try:
         user_obj = User.objects.get(username=current_user)

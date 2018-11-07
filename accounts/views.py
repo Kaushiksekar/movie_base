@@ -4,6 +4,16 @@ from django.contrib.auth.models import User
 from .serializers import UserSerializer
 
 class RegisterUsers(generics.CreateAPIView):
+    """RegisterUsers class is used for register url. Non-admin users are registered
+    in this view.
+    METHOD: POST
+	BODY TO SEND:
+		{
+			“username”: “user”,
+			“password”: “password”
+		}
+    URL : https://dry-gorge-19755.herokuapp.com/api/auth/register/
+    """
 
     permission_classes = (permissions.AllowAny,)
     serializer_class = UserSerializer
@@ -38,6 +48,16 @@ class RegisterUsers(generics.CreateAPIView):
             )
 
 class RegisterAdminUsers(generics.CreateAPIView):
+    """RegisterUsers class is used for register url. Admin users are registered
+    in this view.
+    METHOD: POST
+	BODY TO SEND:
+		{
+			“username”: “user”,
+			“password”: “password”
+		}
+    URL : https://dry-gorge-19755.herokuapp.com/api/auth/register/admin/
+    """
 
     permission_classes = (permissions.AllowAny,)
     serializer_class = UserSerializer
