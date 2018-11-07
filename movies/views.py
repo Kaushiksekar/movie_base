@@ -223,6 +223,7 @@ def remove_movie(request):
             status=status.HTTP_400_BAD_REQUEST
             )
     except:
+        return Response(
         data = {
             "message": "Only admin users can remove a movie, not " + current_user
         },
